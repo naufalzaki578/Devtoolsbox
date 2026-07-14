@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevToolbox</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Library eksternal untuk QR & Markdown Preview -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- SIDEBAR NAVIGASI -->
+        <aside class="sidebar">
+            <h2 style="color: var(--accent); margin-bottom: 10px;">DevToolbox</h2>
+            <button class="nav-btn active" data-target="json-section">JSON Formatter</button>
+            <button class="nav-btn" data-target="b64-section">Base64 Converter</button>
+            <button class="nav-btn" data-target="gen-section">UUID & Password</button>
+            <button class="nav-btn" data-target="regex-section">Regex Tester</button>
+            <button class="nav-btn" data-target="color-section">Color & Gradient</button>
+            <button class="nav-btn" data-target="ts-section">Timestamp Converter</button>
+            <button class="nav-btn" data-target="qr-section">QR Generator</button>
+            <button class="nav-btn" data-target="md-section">Markdown Preview</button>
+        </aside>
+
+        <!-- KONTEN UTAMA -->
+        <main class="content">
+            
+            <!-- 1. JSON SECTION (Tombol Sejajar Sempurna di Samping Judul) -->
+            <section id="json-section" class="tool-section active">
+                <div class="section-header">
+                    <h3>JSON Formatter & Minifier</h3>
+                    <div class="actions">
+                        <button id="json-fmt-btn" class="btn-primary">Format JSON</button>
+                        <button id="json-min-btn">Minify</button>
+                        <button id="json-copy-btn">Salin Hasil</button>
+                    </div>
+                </div>
+
+                <textarea id="json-input" placeholder="Tempel JSON berantakan di sini..."></textarea>
+                <pre id="json-output">Hasil akan muncul di sini...</pre>
+            </section>
+
+            <!-- 2. BASE64 SECTION -->
+            <section id="b64-section" class="tool-section">
+                <h3>Base64 Converter</h3>
+                <textarea id="base64-input" placeholder="Masukkan teks biasa untuk Encode, atau kode Base64 untuk Decode..."></textarea>
+                <div style="display: flex; gap: 10px;">
+                    <button id="b64-encode-btn" class="btn-primary">Encode ke Base64</button>
+                    <button id="b64-decode-btn">Decode ke Teks</button>
+                </div>
+                <textarea id="base64-output" readonly placeholder="Hasil konversi..."></textarea>
+            </section>
+
+            <!-- 3. GENERATORS SECTION -->
+            <section id="gen-section" class="tool-section">
+                <h3>UUID & Password Generator</h3>
+                <div style="background: var(--bg-card); padding: 15px; border-radius: 8px;">
+                    <h4>UUID v4 Generator</h4>
+                    <button id="uuid-gen-btn" class="btn-primary" style="margin-top: 10px;">Generate UUID</button>
+                    <input type="text" id="uuid-output" readonly placeholder="Klik generate..." style="width: 100%; margin-top: 10px;">
+                </div>
+                <div style="background: var(--bg-card); padding: 15px; border-radius: 8px;">
+                    <h4>Password Generator</h4>
+                    <label>Panjang Karakter: </label>
+                    <input type="number" id="pass-length" value="16" min="6" max="64">
+                    <button id="pass-gen-btn" class="btn-primary" style="margin-top: 10px; display: block;">Generate Password</button>
+                    <input type="text" id="pass-output" readonly placeholder="Klik generate..." style="width: 100%; margin-top: 10px;">
+                </div>
+            </section>
+
+            <!-- 4. REGEX TESTER -->
+            <section id="regex-section" class="tool-section">
+                <h3>Regex Tester</h3>
+                <input type="text" id="regex-pattern" placeholder="Pola Regex (contoh: [a-z]+)" style="width: 100%;">
+                <input type="text" id="regex-flags" placeholder="Flags (contoh: g, i)" style="width: 100%;">
+                <textarea id="regex-text" placeholder="Masukkan teks sampel untuk diuji..."></textarea>
+                <div id="regex-status" style="padding: 15px; background: #020617; border-radius: 8px; border: 1px solid #475569;">Masukkan pola regex dan teks uji.</div>
+            </section>
+
+            <!-- 5. COLOR & GRADIENT TOOLS -->
+            <section id="color-section" class="tool-section">
+                <h3>Color & Gradient Tools</h3>
+                <div style="background: var(--bg-card); padding: 15px; border-radius: 8px;">
+                    <h4>Color Picker</h4>
+                    <input type="color" id="color-input" value="#38bdf8" style="cursor: pointer; vertical-align: middle;">
+                    <input type="text" id="color-hex" readonly value="#38bdf8" style="margin-left: 10px; vertical-align: middle;">
+                </div>
+                <div style="background: var(--bg-card); padding: 15px; border-radius: 8px;">
+                    <h4>Gradient Generator</h4>
+                    <input type="color" id="grad-c1" value="#38bdf8">
+                    <input type="color" id="grad-c2" value="#ec4899" style="margin-left: 10px;">
+                    <div id="grad-preview" style="height: 100px; margin: 15px 0; border-radius: 8px; background: linear-gradient(135deg, #38bdf8, #ec4899);"></div>
+                    <input type="text" id="grad-css" readonly style="width: 100%;" value="background: linear-gradient(135deg, #38bdf8, #ec4899);">
+                </div>
+            </section>
+
+            <!-- 6. TIMESTAMP CONVERTER -->
+            <section id="ts-section" class="tool-section">
+                <h3>Epoch Timestamp Converter</h3>
+                <p>Waktu Epoch Saat Ini: <strong id="current-epoch" style="color: var(--accent);">0000000000</strong></p>
+                <input type="number" id="ts-input" placeholder="Masukkan Timestamp (detik/milidetik)" style="width: 100%;">
+                <button id="ts-conv-btn" class="btn-primary">Konversi ke Tanggal</button>
+                <div id="ts-output-date" style="padding: 15px; background: #020617; border-radius: 8px;">Hasil Lokal: -</div>
+            </section>
+
+            <!-- 7. QR GENERATOR -->
+            <section id="qr-section" class="tool-section">
+                <h3>QR Code Generator</h3>
+                <input type="text" id="qr-text" placeholder="Masukkan URL atau teks untuk dijadikan QR..." style="width: 100%;">
+                <button id="qr-gen-btn" class="btn-primary">Buat QR Code</button>
+                <div id="qr-output-container" style="margin-top: 10px; background: white; padding: 15px; display: inline-block; border-radius: 8px;"></div>
+            </section>
+
+            <!-- 8. LIVE MARKDOWN PREVIEW -->
+            <section id="md-section" class="tool-section">
+                <h3>Live Markdown Preview</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <textarea id="md-input" placeholder="Ketik format Markdown di sini... (# Judul, **Tebal**)"></textarea>
+                    <div id="md-output" style="background: #020617; padding: 15px; border-radius: 8px; overflow-y: auto; border: 1px solid #475569; height: 200px;"></div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Panggil Skrip Utama -->
+    <script src="script.js"></script>
+</body>
+</html>
